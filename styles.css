@@ -1,0 +1,25 @@
+#shape-area {
+    height: 600px;
+    width: 600px;
+    background-color: cornflowerblue;
+}
+
+#shape-info {
+    background-color: crimson;
+}
+
+.rectangle {
+    background-color: green;
+}
+
+.rectangle.square {
+    background-color: red;
+}
+
+.circle {
+    background-color: purple;
+}
+
+.triangle {
+    background-color: yellow;
+}
