@@ -2,6 +2,7 @@
     height: 600px;
     width: 600px;
     background-color: cornflowerblue;
+    position: relative;
 }
 
 #shape-info {
@@ -10,16 +11,20 @@
 
 .rectangle {
     background-color: green;
+    position: absolute;
 }
 
-.rectangle.square {
+.square {
     background-color: red;
+    position: absolute;
 }
 
 .circle {
     background-color: purple;
+    border-radius: 50%;
+    position: absolute;
 }
 
 .triangle {
-    background-color: yellow;
+    position: absolute;
 }

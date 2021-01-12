@@ -31,65 +31,114 @@ function rectBoxCheck () {
     }
 }
 
+let counter = 0;
+
+function randomVal(min, max) {
+    let random = Math.floor(Math.random() * (max - min)) + min;
+    return random;
+}
+
 //classes
 class Shape {
-    constructor(height, width) {
-        $('#shape-area').append('<div></div>');
-        // this.div.style.height = height;
-        // this.div.style.width = width;
+    constructor(height, width, shape) {
+        $('#shape-area').append(`<div class=${shape} id="${counter}"></div>`);
+        $(`#${counter}`).css({
+            height: `${height}px`,
+            width: `${width}px`,
+            top: `${randomVal(0, (600 - height))}px`,
+            left: `${randomVal(0, (600 - width))}px`
+        });
+        $(`#${counter}`).click(() => this.describe());
+        $(`#${counter}`).dblclick(() => $(this).remove());
+        this.height = height;
+        this.width = width;
+        this.class = shape;
     }
 
     describe() {
-        $('#shape-text').text(`${this.className}`);
-        $('#width-text').text(`${this.div.style.width}`);
-        $('#height-text').text(`${this.div.style.height}`);
-        if(this.className === 'circle') {
+        $('#radius-text').text('');
+        $('#shape-name-text').text(this.class);
+        $('#width-text').text(this.width);
+        $('#height-text').text(this.height);
+        if(this.class === 'circle') {
             $('#radius-text').text(this.radius);
         }
         //Area if/else
-        if(this.className === 'rectangle') {
-            let area = width * height;
+        if(this.class === 'rectangle') {
+            let area = this.width * this.height;
             $('#area-text').text(area);
-        } else if(this.className === 'circle') {
-            let area = Math.PI * this.radius * this.radius;
+        } else if(this.class === 'circle') {
+            let area = Math.PI * 0.5 * this.width * 0.5 * this.width;
             $('#area-text').text(area);
         } else {
-            let area = 0.5 * width * height;
+            let area = 0.5 * this.width * this.height;
             $('#area-text').text(area);
         }
         //Perimeter if/else
-        if(this.className === 'rectangle') {
-            let perimeter = 2 * height + 2 * width;
+        if(this.class === 'rectangle' || this.class ==='square') {
+            let perimeter = 2 * this.height + 2 * this.width;
             $('#perimeter-text').text(perimeter);
-        } else if(this.className === 'circle') {
-            let perimeter = 2 * Math.PI * this.radius;
+        } else if(this.class === 'circle') {
+            let perimeter = Math.PI * this.width;
             $('#perimeter-text').text(perimeter);
         } else {
-            let perimeter = height + width + Math.sqrt(height * height + width * width);
+            let perimeter = parseFloat((this.height**2 + this.width**2)**(0.5)) + parseFloat(this.width) + parseFloat(this.height); //would only concatenate without parseFloat for reasons I couldn't figure out
             $('#perimeter-text').text(perimeter);
         }
     }
 }
 
 class Rectangle extends Shape {
-    constructor(height, width) {
-        super(height, width);
+    constructor(height, width, shape) {
+        super(height, width, shape);
         this.height = height;
         this.width = width;
-        this.className = 'rectangle';
+    }
+}
+
+class Circle extends Shape {
+    constructor(radius) {
+        super((radius * 2), (radius * 2), 'circle');
+        this.radius = radius;
+    }
+}
+
+class Square extends Rectangle {
+    constructor(length) {
+        super(length, length, 'square');
+        this.height = length;
+        this.width = length;
+    }
+}
+
+class Triangle extends Shape {
+    constructor(height) {
+        super(height, height, 'triangle');
+        $(`#${counter}`).css({
+            height: '0px',
+            width: '0px',
+            borderBottom: `${height}px solid yellow`,
+            borderLeft: `${height}px solid transparent`
+        });
+        this.height = height;
+        this.width = height;
     }
 }
 
 //button click listeners
 $('#rect-btn').click(function() {
-    new Rectangle($('#rect-height').val(), $('#rect-width').val());
+    counter++;
+    new Rectangle($('#rect-height').val(), $('#rect-width').val(), 'rectangle');
 })
 $('#square-btn').click(function() {
-
+    counter++;
+    new Square($('#square-height').val());
 })
 $('#circle-btn').click(function() {
-
+    counter++;
+    new Circle($('#circle-radius').val());
 })
 $('#tri-btn').click(function() {
-
+    counter++;
+    new Triangle($('#triangle-height').val());
 })
