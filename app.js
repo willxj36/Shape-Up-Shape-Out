@@ -49,7 +49,7 @@ class Shape {
             left: `${randomVal(0, (600 - width))}px`
         });
         $(`#${counter}`).click(() => this.describe());
-        $(`#${counter}`).dblclick(() => $(this).remove());
+        $(`#${counter}`).dblclick((event) => $(event.target).remove());
         this.height = height;
         this.width = width;
         this.class = shape;
